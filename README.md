@@ -2,6 +2,24 @@
 
 A production-ready, high-performance Spring Boot application that generates cryptographically secure, unique tracking numbers for logistics operations. Built with enterprise-grade features including comprehensive monitoring, distributed tracing, rate limiting, and horizontal scaling capabilities.
 
+## 🌐 Live Demo
+
+**🔗 Deployed API URL**: [http://37.120.189.61:8092](http://37.120.189.61:8092)
+
+### Quick Test Links:
+- **🏥 Health Check**: [http://37.120.189.61:8092/actuator/health](http://37.120.189.61:8092/actuator/health)
+- **📊 Metrics**: [http://37.120.189.61:8092/actuator/metrics](http://37.120.189.61:8092/actuator/metrics)
+- **🔍 Prometheus**: [http://37.120.189.61:8092/actuator/prometheus](http://37.120.189.61:8092/actuator/prometheus)
+- **ℹ️ Info**: [http://37.120.189.61:8092/actuator/info](http://37.120.189.61:8092/actuator/info)
+
+### Test the API:
+```bash
+# Test the live API
+curl -u developer:test123 "http://37.120.189.61:8092/next-tracking-number?origin_country_id=MY&destination_country_id=ID&weight=1.234&customer_id=de619854-b59b-425e-9db4-943979e1bd49"
+```
+
+> **Note**: This is deployed on a VPS server. The application is stateless and requires no external dependencies.
+
 ## ✨ Key Features
 
 - **🔒 Cryptographically Secure**: SHA-256 based generation with multiple entropy sources
@@ -56,7 +74,7 @@ mvn spring-boot:run
 java -jar target/tracking-number-generator-1.0-SNAPSHOT.jar
 ```
 
-The application starts on **port 8090** (changed from default 8080 to avoid Tomcat conflicts).
+The application starts on **port 8092** (changed from default 8080 to avoid Tomcat conflicts).
 
 ### Docker Deployment
 
@@ -65,7 +83,7 @@ The application starts on **port 8090** (changed from default 8080 to avoid Tomc
 docker build -t tracking-number-api .
 
 # Run container
-docker run -p 8090:8090 tracking-number-api
+docker run -p 8092:8092 tracking-number-api
 ```
 
 ### Production Deployment
@@ -128,22 +146,22 @@ cp target/tracking-number-generator-1.0-SNAPSHOT.war /path/to/tomcat/webapps/
 ### Health Checks
 ```bash
 # Application health
-curl http://localhost:8090/actuator/health
+curl http://localhost:8092/actuator/health
 
 # Detailed health with components
-curl http://localhost:8090/actuator/health/details
+curl http://localhost:8092/actuator/health/details
 ```
 
 ### Metrics & Monitoring
 ```bash
 # Prometheus metrics
-curl http://localhost:8090/actuator/prometheus
+curl http://localhost:8092/actuator/prometheus
 
 # Application metrics
-curl http://localhost:8090/actuator/metrics
+curl http://localhost:8092/actuator/metrics
 
 # Custom business metrics
-curl http://localhost:8090/actuator/metrics/tracking.numbers.generated.total
+curl http://localhost:8092/actuator/metrics/tracking.numbers.generated.total
 ```
 
 ### Key Business Metrics
@@ -193,14 +211,14 @@ mvn test jacoco:report
 **Basic Request:**
 ```bash
 curl -u developer:test123 \
-  "http://localhost:8090/next-tracking-number?origin_country_id=MY&destination_country_id=ID&weight=1.234&customer_id=de619854-b59b-425e-9db4-943979e1bd49"
+  "http://localhost:8092/next-tracking-number?origin_country_id=MY&destination_country_id=ID&weight=1.234&customer_id=de619854-b59b-425e-9db4-943979e1bd49"
 ```
 
 **With Correlation ID:**
 ```bash
 curl -u developer:test123 \
   -H "X-Correlation-ID: test-123" \
-  "http://localhost:8090/next-tracking-number?origin_country_id=MY&destination_country_id=ID&weight=1.234&customer_id=de619854-b59b-425e-9db4-943979e1bd49"
+  "http://localhost:8092/next-tracking-number?origin_country_id=MY&destination_country_id=ID&weight=1.234&customer_id=de619854-b59b-425e-9db4-943979e1bd49"
 ```
 
 **PowerShell (Windows):**
@@ -208,7 +226,7 @@ curl -u developer:test123 \
 $headers = @{
     Authorization = "Basic " + [Convert]::ToBase64String([Text.Encoding]::ASCII.GetBytes("developer:test123"))
 }
-Invoke-WebRequest -Uri "http://localhost:8090/next-tracking-number?origin_country_id=MY&destination_country_id=ID&weight=1.234&customer_id=de619854-b59b-425e-9db4-943979e1bd49" -Headers $headers
+Invoke-WebRequest -Uri "http://localhost:8092/next-tracking-number?origin_country_id=MY&destination_country_id=ID&weight=1.234&customer_id=de619854-b59b-425e-9db4-943979e1bd49" -Headers $headers
 ```
 
 ### Performance Testing
@@ -218,14 +236,14 @@ mvn test -Dtest=TrackingNumberPerformanceTest
 
 # Load testing with Apache Bench
 ab -n 1000 -c 10 -A developer:test123 \
-  "http://localhost:8090/next-tracking-number?origin_country_id=MY&destination_country_id=ID&weight=1.234&customer_id=de619854-b59b-425e-9db4-943979e1bd49"
+  "http://localhost:8092/next-tracking-number?origin_country_id=MY&destination_country_id=ID&weight=1.234&customer_id=de619854-b59b-425e-9db4-943979e1bd49"
 ```
 
 ### Rate Limiting Test
 ```bash
 # Test rate limiting (100 requests/minute per IP)
 for i in {1..105}; do
-  curl -u developer:test123 "http://localhost:8090/next-tracking-number?origin_country_id=MY&destination_country_id=ID&weight=1.234&customer_id=de619854-b59b-425e-9db4-943979e1bd49"
+  curl -u developer:test123 "http://localhost:8092/next-tracking-number?origin_country_id=MY&destination_country_id=ID&weight=1.234&customer_id=de619854-b59b-425e-9db4-943979e1bd49"
 done
 ```
 
@@ -239,7 +257,7 @@ done
 docker build -t tracking-number-api .
 
 # Run container
-docker run -d -p 8090:8090 \
+docker run -d -p 8092:8092 \
   -e ADMIN_USERNAME=your-username \
   -e ADMIN_PASSWORD=your-password \
   tracking-number-api
@@ -252,7 +270,7 @@ services:
   tracking-api:
     build: .
     ports:
-      - "8090:8090"
+      - "8092:8092"
     environment:
       - ADMIN_USERNAME=developer
       - ADMIN_PASSWORD=secure-password
@@ -286,7 +304,7 @@ spec:
       - name: api
         image: tracking-number-api:latest
         ports:
-        - containerPort: 8090
+        - containerPort: 8092
         env:
         - name: ADMIN_USERNAME
           value: "developer"
@@ -305,13 +323,13 @@ spec:
         livenessProbe:
           httpGet:
             path: /actuator/health
-            port: 8090
+            port: 8092
           initialDelaySeconds: 30
           periodSeconds: 10
         readinessProbe:
           httpGet:
             path: /actuator/health
-            port: 8090
+            port: 8092
           initialDelaySeconds: 5
           periodSeconds: 5
 ```
@@ -354,7 +372,7 @@ java -jar -Dspring.profiles.active=prod \
 ### Load Testing Results
 ```bash
 # 1000 concurrent requests, 10 threads
-ab -n 1000 -c 10 -A developer:test123 "http://localhost:8090/next-tracking-number?..."
+ab -n 1000 -c 10 -A developer:test123 "http://localhost:8092/next-tracking-number?..."
 
 # Results:
 # Requests per second: 1,247.32 [#/sec]
@@ -374,13 +392,13 @@ ab -n 1000 -c 10 -A developer:test123 "http://localhost:8090/next-tracking-numbe
 |----------|---------|-------------|
 | `ADMIN_USERNAME` | `developer` | API authentication username |
 | `ADMIN_PASSWORD` | `test123` | API authentication password |
-| `SERVER_PORT` | `8090` | Application port |
+| `SERVER_PORT` | `8092` | Application port |
 | `LOGGING_LEVEL_ORG_EXAMPLE` | `INFO` | Application log level |
 
 ### Application Properties
 ```properties
 # Server configuration
-server.port=8090
+server.port=8092
 
 # Security configuration
 app.security.username=${ADMIN_USERNAME:developer}
